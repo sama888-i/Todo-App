@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+@using TodoApp.Models
+@model List<Todo>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+</head>
+<body>
+    <div class="container">            
+        <a class="btn btn-primary  my-2" href="/Todo/Create">Create</a>
+        <ul class="list-group mb-4">
+             @foreach(var item in Model)
+             {
+                <li class="list-group-item d-flex justify-content-between">
+                    @item.Title => @item.DeadLine?.ToString("dd  MMMM yyyy  - HH:mm", new
+                    CultureInfo("Az"))
+                    @if(item.IsDone)
+                    {
+                        <Span>(Tamamlanıb)</Span>
+                    }
+                    else if(item.DeadLine >=DateTime.Now )
+                    {
+                        <Span>(Hələ tamamlanmayıb)</Span>
+
+                    }
+                    else
+                    {
+                        <Span>(Vaxtı bitib)</Span>
+                    }
+                    <div class="btn-group mr-auto" role="group" aria-label="Basic mixed styles example">
+                         @if(item.DeadLine >= DateTime.Now && !item.IsDone)
+                         {
+                            <a href="/Todo/CompleteTask/@item.Id" class="btn btn-outline-success px-2"><i class="las la-check"></i></a>
+                         }
+                         <a class="btn btn-secondary" href="/Todo/Show/@item.Id">Bax</a>
+                         <a class="btn btn-success " href="/Todo/Update/ @item.Id">Düzəliş et</a>
+                         <a class="btn btn-danger " href="/Todo/Delete/@item.Id">Sil</a>
+                    </div> 
+
+
+                </li>
+             }
+        </ul> 
+    </div> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
